@@ -1,36 +1,73 @@
 /*
-Автор: Боев Максим
- Калькулятор с 6 базовыми функциями
- Пользователю необходимо выбрать одну из допустимых операций и 2 числа, после калькулятор произведёт вычисления и предложит пользователю продолжить или прекратить работу
-
+Author: Boev Maxim
+ Calculator with 6 basic functions
+ The user must select one of the allowable operations and 2 numbers, then the calculator will make calculations and prompt the user to continue or stop working
 */
-
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
 int main (void)
 {
     printf (" Hello!\n");
     printf (" This program performs the selected operation between two numbers \n" );
     printf (" To be successful, you must first enter the operation and then the 2 numbers [ 1 in the case of the factorial] \n" );
-    printf (" Available operations :addition(+), subtraction(-), multiplication(*), division(/ ), exponentiation(^), factorial(!) \n" );
+    printf (" Available operations :addition(+), subtraction(-), multiplication(*), division(/ ), exponentiation(^), factorial(!), vector(v) \n" );
     
-    // Введём переменные
-    double num1, num2; // Числа, вводимые пользователем с клавиатуры
-    double res; // Результат операции
-    char operation; // Вид операции
-    char consent; // Перемаенная для возобновления работы после завершения программы (при желании пользователя)
-    do // Цикл для возобновленя работы после завершения программы
+    // Entering variables
+    double num1, num2; // Numbers entered by the user from the keyboard
+    double res; // The result of the operation
+    char operation; // Type of operation
+    char operationv;
+    char consent; // Reset to resume operation after the end of the program (if the user wishes)
+    double *A, *B; //
+    int size; 
+    double resv; //
+    do // Cycle for resuming work after the end of the program
     {
         setvbuf (stdout, NULL, _IONBF, 0);
         setvbuf (stderr, NULL, _IONBF, 0);
-        // Выбор операции
+        // Choice of operation
         printf ("\n Select an operation ( +, -, *, /, ^, !):");
         scanf (" %c", &operation);
         
-        // Операции
+        // operation
         switch (operation)
         {
-            // Функция для сложения чисел
+        case 'v': // Operations with vectors
+            printf("Enter the size of the vectors: ");
+            scanf("%i", &size);
+            A = malloc(size * sizeof(int));
+            B = malloc(size * sizeof(int));
+            printf("Enter the coordinates of the first vector: ");
+            for (int i = 0; i < size; i++) scanf("%lf", &A[i]);
+            printf("Enter the coordinates of the second vector: ");
+            for (int i = 0; i < size; i++) scanf("%lf", &B[i]);
+            printf("Enter one of the provided operations for vectors: (+),(-),(*): ");
+            scanf(" %c", &operationv);
+            switch (operationv)
+            {
+            case '+': // Addition operation with vectors
+                printf("Addition of vectors: ");
+                for (int i = 0; i < size; i++) printf("%lf ", A[i] + B[i]);
+                printf("\n");
+                break;
+            case '-': // Subtraction operation with vectors
+                printf("Subtracting vectors: ");
+                for (int i = 0; i < size; i++) printf("%lf ", A[i] - B[i]);
+                printf("\n");
+                break;
+            case '*': // Scalar product operation with vectors
+                printf("Scalar product of vectors: ");
+                for (int i = 0; i < size; i++) printf("%lf ", A[i] * B[i]);
+                printf("\n");
+                break;
+            default: // In the case of an incorrectly selected operation
+                printf("Error 404!");
+            }
+            free(A); // Releasing used memory
+            free(B);
+            break;
+            // Function for adding numbers
         case '+':
             printf ("\nEnter the first number:");
             scanf (" %lf", &num1);
@@ -40,7 +77,7 @@ int main (void)
             printf ("\n%lf + %lf = %lf", num1, num2, res);
             break;
 
-            //Функция для вычитания чисел
+            // Function for subtracting numbers
         case '-':
             printf ("\nEnter the first number:");
             scanf (" %lf", &num1);
@@ -50,7 +87,7 @@ int main (void)
             printf ("\n%lf - %lf = %lf", num1, num2, res);
             break;
 
-            //Функция для умножения чисел
+            // Function for multiplying numbers
         case '*':
             printf ("\nEnter the first number:");
             scanf (" %lf", &num1);
@@ -60,7 +97,7 @@ int main (void)
             printf ("\n%lf * %lf = %lf", num1, num2, res);
             break;
 
-            //Фунция для деления чисел
+            // Function for dividing numbers
         case '/':
             printf ("\nEnter the first number:");
             scanf (" %lf", &num1);
@@ -71,7 +108,7 @@ int main (void)
             else printf ("\n%lf / %lf = %lf", num1, num2, res);
             break;
 
-            //Функция для возведения числа в степень
+            // A function for the exponentiation of a number
         case '^':
             printf ("\nEnter the first number:");
             scanf (" %lf", &num1);
@@ -109,7 +146,7 @@ int main (void)
             
             break;
 
-            //Функция для нахождения факториала числа 
+            // Function for finding the factorial of a number 
         case '!':
             printf ("\nEnter the number:");
             scanf (" %lf", &num1);
@@ -122,16 +159,16 @@ int main (void)
             else if (num1 < 0) printf ("Undefined");
             else printf ("\n%lf! = %lf", numv1, num1);
             break; 
-         // При ошибке при введении операции
+         // In the case of an incorrectly selected operation
         default:
             printf("\nOperation selection error");
         }
-        // Согласие/отказ дальше работать с программой
+        // Consent/refusal to continue working with the program
         printf ("\nWould you like to continue? Yes=y,No=n:");
         scanf (" %c", &consent);
-        // Условие продолжения
+        // Continuation condition
     } while (consent == 'y');
-    //Условие завершения
+    // Condition of completion
     if (consent == 'n') printf("\nGoodbye!");
     else printf ("\nOperation selection error");
     return 0;
